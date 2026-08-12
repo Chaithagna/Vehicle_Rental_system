@@ -1,0 +1,53 @@
+import mongoose from 'mongoose';
+const ownerVerificationSchema=new mongoose.Schema({
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        required:true,
+        unique:true
+    },
+    aadharDocument:{
+        type:String,
+        required:true,
+        unique:true
+    },
+    drivingLicense:{
+        type:String,
+        required:true,
+        unique:true
+    },
+    bankDetails:{
+        accountHolderName:{
+            type:String,
+            required:true,
+        },
+        accountNumber:{
+            type:String,
+            required:true,
+        },
+        ifscCode:{
+            type:String,
+            required:true,
+        }
+    },
+    status:{
+        type:String,
+        enum:["pending","approved","rejected"],
+        default:"pending"
+
+    },
+    reviewedBy:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User",
+        default:null
+    },
+    reviewedAt:{
+        type:Date,
+        default:null
+    },
+    rejectedReason:{
+        type:String,
+        default:null
+    }
+});
+module.exports=mongoose.model("ownerVerification",ownerVerificationSchema);
