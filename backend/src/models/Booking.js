@@ -7,13 +7,11 @@ const bookingSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-
     vehicle: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vehicle",
