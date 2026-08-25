@@ -7,7 +7,7 @@ export const addVehicle=async (req,res)=>{
             name,
             brand,
             model,
-            catagory,
+            category,
             location,
             state,
             pricePerDay,
@@ -17,7 +17,7 @@ export const addVehicle=async (req,res)=>{
             description,
             features
         } = req.body;
-        if(!name || !brand || !model || !catagory || !location || !state || !pricePerDay || !fuelType ||  !seatingCapacity){
+        if(!name || !brand || !model || !category || !location || !state || !pricePerDay || !fuelType ||  !seatingCapacity){
             return res.status(400).json({
                 message:"Please fill all the required fields"
             })
@@ -27,7 +27,7 @@ export const addVehicle=async (req,res)=>{
             name,
             brand,
             model,
-            category:catagory.toLowerCase(),
+            category,
             location,
             state,
             pricePerDay,

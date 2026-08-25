@@ -20,7 +20,7 @@ const vehicleSchema=new mongoose.Schema({
         required:true,
         trim:true
     },
-    catagory:{
+    category:{
         type:String,
         enum:[
             "luxury car",

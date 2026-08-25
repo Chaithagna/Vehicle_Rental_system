@@ -1,15 +1,47 @@
-import {getAllPendingVerificationRequests
-    ,getVerificationById,
-    approveOwnerVerification,
-    rejectOwnerVerification,
-    getApprovedOwners} from "../controllers/admin/owner.controller.js";
 import express from "express";
-import {admin} from "../middleware/auth.middleware.js";
-import {protect} from "..middleware/role.middleware.js";
-const router=express.Router();
-reouter.get("/owner-verifications",protect,admin,getAllPendingVerificationRequests);
-router.get("/owner-verifications/:id",protect,admin,getVerificationById);
-router.put("/owner-verifications/:id/approve",protect,admin,approveOwnerVerification);
-roter.put("/owner-verifications/:id/reject",protect,admin,rejectOwnerVerification);
-router.get("/approved-owners",protect,admin,getApprovedOwners);
-export default router; 
+
+import {
+  getAllPendingVerificationRequests,
+  getVerificationById,
+  approveOwnerVerification,
+  rejectOwnerVerification,
+  getApprovedOwners,
+} from "../../controllers/admin/owner.controller.js";
+import { protect } from "../../middleware/auth.middleware.js";
+import { verifyRole } from "../../middleware/role.middleware.js";
+
+const router = express.Router();
+
+router.get(
+  "/owner-verifications",
+  protect,
+  verifyRole("admin"),
+  getAllPendingVerificationRequests
+);
+router.get(
+  "/approved-owners",
+  protect,
+  verifyRole("admin"),
+  getApprovedOwners
+);
+
+router.get(
+  "/:id",
+  protect,
+  verifyRole("admin"),
+  getVerificationById
+);
+router.put(
+  "/:id/approve",
+  protect,
+  verifyRole("admin"),
+  approveOwnerVerification
+);
+router.put(
+  "/:id/reject",
+  protect,
+  verifyRole("admin"),
+  rejectOwnerVerification
+);
+
+export default router;
