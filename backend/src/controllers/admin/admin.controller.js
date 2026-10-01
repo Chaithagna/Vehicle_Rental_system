@@ -70,7 +70,7 @@ export const getAllBookings = async (req, res) => {
             .populate("owner", "name email phone")
             .populate(
                 "vehicle",
-                "name brand model catagory pricePerDay"
+                "name brand model category catagory pricePerDay images"
             )
             .sort({ createdAt: -1 });
 

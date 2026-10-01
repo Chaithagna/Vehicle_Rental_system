@@ -38,22 +38,22 @@ export const getDashBoardStats=async(req,res)=>{
             OwnerVerification.countDocuments({status:"approved"}),
 
             //vehicles
-            Vehicle.countDocuments(),,
+            Vehicle.countDocuments(),
             Vehicle.countDocuments({status:"pending"}),
             Vehicle.countDocuments({status:"approved"}),
             Vehicle.countDocuments({status:"rejected"}),
             
 
             //bookings
-            Bookings.countDocuments(),
-            Bookings.countDocuments({status:"pending"}),
-            Bookings.countDocuments({status:"confirmed"}),
-            Bookings.countDocuments({status:"completed"}),
-            Bookings.countDocuments({status:"cancelled"}),
-            Bookings.countDocuments({status:"rejected"}),   
+            Booking.countDocuments(),
+            Booking.countDocuments({status:"pending"}),
+            Booking.countDocuments({status:"confirmed"}),
+            Booking.countDocuments({status:"completed"}),
+            Booking.countDocuments({status:"cancelled"}),
+            Booking.countDocuments({status:"rejected"}),   
 
             //Reviews
-            Reviews.countDocuments()
+            Review.countDocuments()
 
         ]);
         return res.status(200).json({
@@ -68,7 +68,7 @@ export const getDashBoardStats=async(req,res)=>{
                 approved:approvedOwnerVerifications
             },
             vehicles:{
-                total:totalVehicles,
+                total:totalvehicles,
                 pending:pendingVehicles,
                 approved:approvedVehicles,
                 rejected:rejectedVehicles

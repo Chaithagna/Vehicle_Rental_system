@@ -3,21 +3,22 @@ import Vehicle from '../models/Vehicle.js';
 //POST /api/vehicles
 export const addVehicle=async (req,res)=>{
     try{
-         const {
+        const category = req.body.category || req.body.catagory;
+        const {
             name,
             brand,
             model,
-            category,
             location,
             state,
             pricePerDay,
             fuelType,
             seatingCapacity,
             images,
+            vehicleNumber,
             description,
             features
         } = req.body;
-        if(!name || !brand || !model || !category || !location || !state || !pricePerDay || !fuelType ||  !seatingCapacity){
+        if(!name || !brand || !model || !category || !location || !state || !pricePerDay || !fuelType || !seatingCapacity || !vehicleNumber){
             return res.status(400).json({
                 message:"Please fill all the required fields"
             })
@@ -34,6 +35,7 @@ export const addVehicle=async (req,res)=>{
             fuelType,
             seatingCapacity,
             images,
+            vehicleNumber,
             description,
             features
         });

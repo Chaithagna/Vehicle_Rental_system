@@ -38,8 +38,8 @@ import Vehicle from "../models/Vehicle.js";
                     message:"start date canot be past date"
                 })
             }
-            const vehicle=await Vehicle.findById({
-                id:vehicleId,
+            const vehicle=await Vehicle.findOne({
+                _id:vehicleId,
                 status:"approved"
             });
             if(!vehicle){
@@ -68,7 +68,7 @@ import Vehicle from "../models/Vehicle.js";
                     $gt:start
                 }
            });
-           if(exsistingBooking){ 
+           if(exisistingBooking){ 
                 return res.status(400).json({
                     success:false,
                     message:"the vehicle is booked during that time"
@@ -79,19 +79,19 @@ import Vehicle from "../models/Vehicle.js";
            const totalAmount=totalDays*vehicle.pricePerDay;
            //creating the booking
            const booking=await Booking.create({
-                coustomer:req.user._id,
+             customer:req.user._id,
                 owner:vehicle.owner,
                 vehicle:vehicle._id,
                 startDate:start,
                 endDate:end,
                 totalDays,
                 pricePerDay:vehicle.pricePerDay,
-                totaolAmount,
+                 totalAmount,
                 status:"pending"
            });
-           const populatedBooking=Booking.findById(
+             const populatedBooking=await Booking.findById(
                 booking._id,
-           ).populate("coustomer","name email phone")
+                     ).populate("customer","name email phone")
            .populate("owner","name email phone")
            .populate("vehicle","name brand model category location pricePerday images");
            return res.status(200).json({
@@ -123,7 +123,7 @@ export const getMyBookings = async (req, res) => {
         })
             .populate(
                 "vehicle",
-                "name brand model catagory location pricePerDay images"
+                "name brand model category catagory location pricePerDay images"
             )
             .populate(
                 "owner",
@@ -169,7 +169,7 @@ export const getBookingById = async (req, res) => {
             )
             .populate(
                 "vehicle",
-                "name brand model catagory location pricePerDay images"
+                "name brand model category catagory location pricePerDay images"
             );
 
         if (!booking) {
@@ -295,7 +295,7 @@ export const getOwnerBookingRequests = async (req, res) => {
             )
             .populate(
                 "vehicle",
-                "name brand model catagory location pricePerDay images"
+                "name brand model category catagory location pricePerDay images"
             )
             .sort({ createdAt: -1 });
 
@@ -321,7 +321,7 @@ export const getOwnerBookingRequests = async (req, res) => {
   //put/api/bookings/:id/status
   export const updateBookingStatus=async(req,res)=>{
     try{
-        const status=req.body;
+                const { status } = req.body;
         const allowedStatuses=["confirmed","completed","rejected"];
         if(!allowedStatuses.includes(status)){
             return res.status(400).json({
@@ -345,7 +345,7 @@ export const getOwnerBookingRequests = async (req, res) => {
             booking.status=status;
         }
         else if(booking.status=="confirmed" && status=="completed"){
-            booking.status=completed;
+            booking.status=status;
         }
         else{
              return res.status(400).json({

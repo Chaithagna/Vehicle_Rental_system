@@ -6,12 +6,26 @@ import ownerRoutes from "./routes/owner.routes.js";
 import vehicleRoutes from "./routes/vehicle.routes.js";
 import bookingRoutes from "./routes/booking.routes.js";
 import ownerVerification from "./routes/admin/ownerVerification.routes.js";
-import vehicleApprovalRoutes from "./routes/admin/vehicleApproval.routes.js";
+import vehicleApprovalRoutes from "./routes/admin/vehicleApproval.routes.js";         
 import reviewRoutes from "./routes/review.routes.js";
 import adminRoutes from "./routes/admin/admin.routes.js";
 import dashboardRoutes from "./routes/admin/dashboard.routes.js";
 const app = express();
 app.use(express.json());
+
+// CORS Middleware
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/dashboard", dashboardRoutes);
@@ -25,8 +39,10 @@ app.use("/api/vehicles", vehicleRoutes);
 app.use("/api/bookings", bookingRoutes);
 
 app.use("/api/admin/owners", ownerVerification);
+app.use("/api/admin/owner-verifications", ownerVerification);
 
 app.use("/api/admin/vehicles", vehicleApprovalRoutes);
+app.use("/api/admin/vehicle-approvals", vehicleApprovalRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.get("/", (req, res) => {

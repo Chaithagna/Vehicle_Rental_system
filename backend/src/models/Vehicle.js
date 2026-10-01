@@ -23,13 +23,14 @@ const vehicleSchema=new mongoose.Schema({
     category:{
         type:String,
         enum:[
+            "family car",
             "luxury car",
             "sports bike",
             "sedan",
             "SUV",
             "electric vehicle",
             "scooter",
-
+            "bike"
         ],
         required:true,
     },
@@ -61,6 +62,12 @@ const vehicleSchema=new mongoose.Schema({
         type: String,
       },
     ], 
+    vehicleNumber:{
+      type:String,
+      unique:true,
+      required:true,
+      trim:true
+    },
 
     description: {
       type: String,
