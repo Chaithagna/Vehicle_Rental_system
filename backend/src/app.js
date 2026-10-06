@@ -10,37 +10,20 @@ import vehicleApprovalRoutes from "./routes/admin/vehicleApproval.routes.js";
 import reviewRoutes from "./routes/review.routes.js";
 import adminRoutes from "./routes/admin/admin.routes.js";
 import dashboardRoutes from "./routes/admin/dashboard.routes.js";
+import cors from "cors";
 const app = express();
+app.use(cors({
+    origin: "http://localhost:5173"
+}));
 app.use(express.json());
-
-// CORS Middleware
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  if (req.method === "OPTIONS") {
-    return res.sendStatus(200);
-  }
-  next();
-});
-
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/dashboard", dashboardRoutes);
-
 app.use("/api/users", userRoutes);
-
 app.use("/api/owners", ownerRoutes);
-
 app.use("/api/vehicles", vehicleRoutes);
-
 app.use("/api/bookings", bookingRoutes);
-
 app.use("/api/admin/owners", ownerVerification);
 app.use("/api/admin/owner-verifications", ownerVerification);
-
 app.use("/api/admin/vehicles", vehicleApprovalRoutes);
 app.use("/api/admin/vehicle-approvals", vehicleApprovalRoutes);
 app.use("/api/admin", adminRoutes);
@@ -50,5 +33,4 @@ app.get("/", (req, res) => {
         message: "Vehicle Rental API is running"
     });
 });
-
 export default app;

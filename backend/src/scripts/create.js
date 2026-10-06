@@ -13,12 +13,7 @@ const createAdminUser = async () => {
     try {
         console.log("Connecting to MongoDB...");
 
-        console.log(
-            "MONGO_URI exists:",
-            !!process.env.MONGO_URI
-        );
-        const url="mongodb+srv://vehicle_db:123vehicle@cluster0.pglswty.mongodb.net/vehicle_rental";
-
+        const url = process.env.MONGODB_URL || process.env.MONGO_URI;
         await mongoose.connect(url);
 
         console.log("MongoDB connected successfully");
